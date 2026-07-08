@@ -1,0 +1,17 @@
+# Node
+frontend/node_modules
+frontend/dist
+
+# Python
+backend/**/__pycache__
+backend/.venv
+
+# Repo noise
+.git
+.cursor
+
+# Unrelated large directories (keep build context small)
+ampworks
+PySimpleCV
+DiffCapAnalyzer
+
