@@ -65,8 +65,8 @@ def run_dunn(file_path: str | Path, *, max_plot_points: int = 5000) -> Calculati
         if int(valid.sum()) >= 2:
             log_scan = np.log(scan_rates[valid])
             log_i = np.log(currents[valid])
-            _, b_intercept, _, _, _ = linregress(log_scan, log_i)
-            b_list.append(float(b_intercept))
+            b_slope, b_intercept, _, _, _ = linregress(log_scan, log_i)
+            b_list.append(float(b_slope))
         else:
             b_list.append(float("nan"))
 

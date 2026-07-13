@@ -44,14 +44,14 @@ export default function App() {
   }
 
   return (
-    <div className="page">
-      <header className="header">
-        <h1>Battery Analyzer</h1>
-        <p className="muted">Run Dunn or GITT calculations and visualize results.</p>
-      </header>
+    <div className="app-shell">
+      <section className="region region-inputs">
+        <header className="region-header">
+          <h1>Battery Analyzer</h1>
+          <p className="muted">Run Dunn or GITT calculations and visualize results.</p>
+        </header>
 
-      <main className="grid">
-        <section className="card">
+        <div className="region-body">
           <h2>Inputs</h2>
           <div className="stack gap">
             <MethodSelector methods={methods} selected={method} onChange={setMethod} />
@@ -59,13 +59,26 @@ export default function App() {
             <CalculateButton disabled={!canCalculate} loading={loading} onClick={onCalculate} />
             {error ? <div className="error">{error}</div> : null}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section className="stack gap">
-          <ResultsSummary resp={resp} />
+      <section className="region region-graphs">
+        <div className="region-header">
+          <h2>Graphs</h2>
+        </div>
+        <div className="region-body">
           <PlotPanel resp={resp} />
-        </section>
-      </main>
+        </div>
+      </section>
+
+      <section className="region region-results">
+        <div className="region-header">
+          <h2>Results</h2>
+        </div>
+        <div className="region-body">
+          <ResultsSummary resp={resp} />
+        </div>
+      </section>
     </div>
   )
 }
