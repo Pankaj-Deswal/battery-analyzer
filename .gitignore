@@ -1,0 +1,18 @@
+# Node / React
+frontend/node_modules/
+frontend/dist/
+
+# FastAPI/Python
+backend/.venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/static/*
+
+# Data + outputs (inputs/results created by the app)
+data/
+
+# OS/editor noise
+.DS_Store
+.idea/
+.vscode/
+

@@ -36,31 +36,24 @@ function makeLineChartData(plot: PlotSpec) {
   })
 }
 
-function SeriesLegendHint({ plot }: { plot: PlotSpec }) {
-  return (
-    <div className="legendHint muted">
-      {plot.y_label}
-    </div>
-  )
-}
-
 function PlotCard({ plot }: { plot: PlotSpec }) {
   const usesScatter = plot.series.some((s) => s.style === "scatter")
 
   if (usesScatter) {
     return (
-      <section className="panel">
-        <h2>{plot.title}</h2>
-        <div className="chartWrap">
-          <ResponsiveContainer width="100%" height={420}>
+      <div className="plot-card">
+        <h3>{plot.title}</h3>
+        <div className="chart-wrap">
+          <ResponsiveContainer width="100%" height="100%">
             <ScatterChart>
               <CartesianGrid />
-              <XAxis dataKey="x" name={plot.x_label} />
+              <XAxis dataKey="x" name={plot.x_label} tick={{ fontSize: 10 }} />
               <YAxis
                 scale={plot.log_y ? "log" : "linear"}
                 dataKey="y"
                 name={plot.y_label}
                 domain={plot.log_y ? ["auto", "auto"] : undefined}
+                tick={{ fontSize: 10 }}
               />
               <Tooltip />
               {plot.series.map((s: SeriesSpec, idx: number) => {
@@ -74,31 +67,30 @@ function PlotCard({ plot }: { plot: PlotSpec }) {
                   />
                 )
               })}
-              <Legend />
+              <Legend wrapperStyle={{ fontSize: 10 }} />
             </ScatterChart>
           </ResponsiveContainer>
         </div>
-      </section>
+      </div>
     )
   }
 
   const data = makeLineChartData(plot)
   return (
-    <section className="panel">
-      <h2>{plot.title}</h2>
-      <SeriesLegendHint plot={plot} />
-      <div className="chartWrap">
-        <ResponsiveContainer width="100%" height={420}>
+    <div className="plot-card">
+      <h3>{plot.title}</h3>
+      <div className="chart-wrap">
+        <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>
             <CartesianGrid />
-            <XAxis dataKey="x" name={plot.x_label} />
+            <XAxis dataKey="x" name={plot.x_label} tick={{ fontSize: 10 }} />
             <YAxis
               scale={plot.log_y ? "log" : "linear"}
-              dataKey="y"
               domain={plot.log_y ? ["auto", "auto"] : undefined}
+              tick={{ fontSize: 10 }}
             />
             <Tooltip />
-            <Legend />
+            <Legend wrapperStyle={{ fontSize: 10 }} />
             {plot.series.map((s, idx) => {
               const dash = s.style === "dash_line" ? s.dash ?? [6, 4] : undefined
               return (
@@ -117,20 +109,24 @@ function PlotCard({ plot }: { plot: PlotSpec }) {
           </LineChart>
         </ResponsiveContainer>
       </div>
-    </section>
+    </div>
   )
 }
 
 export function PlotPanel({ resp }: { resp: CalculateResponse | null }) {
-  if (!resp) return null
-  if (!resp.plots.length) return null
+  if (!resp || !resp.plots.length) {
+    return (
+      <div className="plot-panel">
+        <div className="empty-state">Run a calculation to view graphs here.</div>
+      </div>
+    )
+  }
 
   return (
-    <div className="stack">
+    <div className="plot-panel">
       {resp.plots.map((p) => (
         <PlotCard key={p.title} plot={p} />
       ))}
     </div>
   )
 }
-
